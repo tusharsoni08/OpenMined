@@ -18,7 +18,7 @@ namespace OpenMined.Syft.Tensor
         private int sibling;
 
         private IntTensorFactory factory;
-        
+
         public IntTensor()
         {
             // DON'T USE THIS CONSTRUCTOR - USE FACTORY INSTEAD.
@@ -186,6 +186,11 @@ namespace OpenMined.Syft.Tensor
                     this.Add(int.Parse(msgObj.tensorIndexParams[0]), inline: true);
                     return this.id + "";
                 }
+                case "cos":
+                {
+                    var result = Cos();
+                    return result.Id.ToString();
+                } 
                 case "equal":
                 {
                     var tensor_1 = factory.Get(int.Parse(msgObj.tensorIndexParams[0]));

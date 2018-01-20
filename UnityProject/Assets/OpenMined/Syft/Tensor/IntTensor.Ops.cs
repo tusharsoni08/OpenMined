@@ -73,6 +73,19 @@ namespace OpenMined.Syft.Tensor
             return result;
         }
 
+        public FloatTensor Cos(bool inline = false)
+        {
+            FloatTensor result = factory.ctrl.floatTensorFactory.Create(shape);
+            if (dataOnGpu)
+            {
+                result.Gpu(shader);
+                if (inline) { throw new NotImplementedException(); }
+                else { return CosGPU(result); }
+            }
+            result.Data = data.AsParallel().Select(x => (float)Math.Cos((float)x)).ToArray();
+            return result;
+        }
+
         public IntTensor View(int[] new_shape, bool inline = true, FloatTensor result = null)
         {
             if (!IsContiguous())

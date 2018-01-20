@@ -11,7 +11,8 @@ namespace OpenMined.Syft.Tensor
         [SerializeField] private static int NegateKernel;
         [SerializeField] private static int ReciprocalIntKernel;
         [SerializeField] private static int ReciprocalIntKernel_;
-        [SerializeField] private static int SinIntKernel_;
+        [SerializeField] private static int SinIntKernel;
+        [SerializeField] private static int CosIntKernel;
 
         public void initShaderKernels()
         {
@@ -64,6 +65,16 @@ namespace OpenMined.Syft.Tensor
 
             shader.SetBuffer(kernel_id, "SinIntData", this.DataBuffer);
             shader.SetBuffer(kernel_id, "SinIntDataResult", result.DataBuffer);
+            shader.Dispatch(kernel_id, this.size, 1, 1);
+            return result;
+        }
+
+        public FloatTensor CosGPU(FloatTensor result)
+        {
+            int kernel_id = shader.FindKernel("CosInt");
+
+            shader.SetBuffer(kernel_id, "CosIntData", this.DataBuffer);
+            shader.SetBuffer(kernel_id, "CosIntDataResult", result.DataBuffer);
             shader.Dispatch(kernel_id, this.size, 1, 1);
             return result;
         }
